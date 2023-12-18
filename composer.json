@@ -1,0 +1,42 @@
+{
+    "name": "idsign/kaleyra",
+    "description": "Idsign Kaleyra Api for Laravel",
+    "authors": [
+        {
+            "name": "Aldo Zumaran",
+            "email": "zumaran.aldo@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.4|^8.0|^8.1|^8.2",
+        "laravel/framework": "^8.0|^9.0|^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Idsign\\Kaleyra\\" : "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Idsign\\Kaleyra\\KaleyraServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+        ],
+        "post-install-cmd": [
+        ],
+        "post-update-cmd": [
+        ],
+        "post-package-install": [
+        ],
+        "post-root-package-install": [
+        ],
+        "post-create-project-cmd": [
+        ]
+    }
+}
