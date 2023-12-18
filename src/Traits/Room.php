@@ -4,14 +4,9 @@ namespace Idsign\Kaleyra\Traits;
 
 trait Room
 {
-    public function listRooms(): bool
+    public function allRooms(): bool
     {
         return $this->query('rooms');
-    }
-
-    public function getRoom($roomId): bool
-    {
-        return $this->query('rooms/'.$roomId);
     }
 
     public function createRoom($data): bool
@@ -19,59 +14,59 @@ trait Room
         return $this->json('rooms', "POST", $data);
     }
 
-    public function deleteRoom($roomId): bool
+    public function getRoom($id): bool
     {
-        return $this->json('rooms/'.$roomId, "DELETE");
+        return $this->query('rooms/' . $id);
     }
 
-    public function disableRoom($roomId): bool
+    public function deleteRoom($id): bool
     {
-        return $this->json('rooms/'.$roomId.'/disable', "PUT");
+        return $this->json('rooms/' . $id, "DELETE");
     }
 
-    public function startRecording($roomId): bool
+    public function disableRoom($id, $data = []): bool
     {
-        return $this->json('rooms/'.$roomId.'/start-recording', "POST");
+        return $this->json('rooms/' . $id . '/disable', "PUT", $data);
     }
 
-    public function stopRecording($roomId): bool
+    public function startRecording($id): bool
     {
-        return $this->json('rooms/'.$roomId.'/stop-recording', "POST");
+        return $this->json('rooms/' . $id . '/start-recording');
     }
 
-    public function callRoom($roomId, $data): bool
+    public function stopRecording($id): bool
     {
-        return $this->json('rooms/'.$roomId.'/call', "POST", $data);
+        return $this->json('rooms/' . $id . '/stop-recording');
     }
 
-    public function getRoomPartecipants($roomId, $isAdmin = false): bool
+    public function callRoom($id, $data): bool
     {
-        return $this->query('rooms/'.$roomId.'/partecipants', ['is_admin' => $isAdmin]);
+        return $this->json('rooms/' . $id . '/call', "POST", $data);
     }
 
-    public function addRoomPartecipants($roomId, $data): bool
+    public function getRoomParticipants($id, $isAdmin = false): bool
     {
-        return $this->json('rooms/'.$roomId.'/partecipants', "POST", $data);
+        return $this->query('rooms/' . $id . '/partecipants', ['is_admin' => $isAdmin]);
     }
 
-    public function getRoomPartecipant($roomId, $userId): bool
+    public function addRoomParticipant($id, $data): bool
     {
-        return $this->query('rooms/'.$roomId.'/participants/'.$userId);
+        return $this->json('rooms/' . $id . '/partecipants', "POST", $data);
     }
 
-    public function updateRoomPartecipant($roomId, $userId, $data): bool
+    public function getRoomParticipant($id, $userId): bool
     {
-        return $this->json('rooms/'.$roomId.'/participants/'.$userId, "PUT", $data);
+        return $this->query('rooms/' . $id . '/participants/' . $userId);
     }
 
-    public function deleteRoomPartecipant($roomId, $userId, $data): bool
+    public function updateRoomParticipant($id, $userId, $data): bool
     {
-        return $this->json('rooms/'.$roomId.'/participants/'.$userId, "DELETE", $data);
+        return $this->json('rooms/' . $id . '/participants/' . $userId, "PUT", $data);
     }
 
-    public function getRoomUploads($roomId): bool
+    public function deleteRoomParticipant($id, $userId): bool
     {
-        return $this->query('uploads', ['room_id' => $roomId]);
+        return $this->json('rooms/' . $id . '/participants/' . $userId, "DELETE");
     }
 
 }

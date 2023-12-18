@@ -2,9 +2,6 @@
 
 namespace Idsign\Kaleyra;
 
-use Idsign\Kaleyra\Http\Livewire\RegistrationDownload;
-use Idsign\Kaleyra\Http\Livewire\RegistrationModal;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class KaleyraServiceProvider extends ServiceProvider
@@ -16,7 +13,7 @@ class KaleyraServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/bandyer.php', 'bandyer');
+        $this->mergeConfigFrom(__DIR__ . '/../config/kaleyra.php', 'kaleyra');
 
         $this->app->bind('kaleyra', function () {
             return new Kaleyra();
@@ -31,7 +28,7 @@ class KaleyraServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config/bandyer.php' => config_path('bandyer.php'),
+            __DIR__ . '/../config/kaleyra.php' => config_path('kaleyra.php'),
         ]);
 
     }

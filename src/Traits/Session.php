@@ -4,15 +4,30 @@ namespace Idsign\Kaleyra\Traits;
 
 trait Session
 {
-    public function getRoomSessions($roomId): bool
+
+    public function allSessions($data)
     {
-        return $this->query('sessions', [
-            'room_id' => $roomId
-        ]);
+        return $this->query('sessions', $data);
     }
 
-    public function getRecording($sessionId): bool
+    public function getRoomSessions($roomId, $data = []): bool
     {
-        return $this->query('sessions/'.$sessionId.'/recording');
+        $data['room_id'] = $roomId;
+        return $this->allSessions($data);
+    }
+
+    public function getSession($id)
+    {
+        return $this->query('sessions/' . $id);
+    }
+
+    public function getSessionRecording($id): bool
+    {
+        return $this->query('sessions/' . $id . '/recording');
+    }
+
+    public function deleteSessionRecording($id)
+    {
+        return $this->json('sessions/' . $id . '/recording', "DELETE");
     }
 }

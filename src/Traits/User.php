@@ -6,48 +6,53 @@ use Illuminate\Http\UploadedFile;
 
 trait User
 {
-    public function listUsers()
+    public function allUsers()
     {
         return $this->query('users');
     }
 
     public function createUser($data)
     {
+        if (!isset($data['role']) || !$data['role']) {
+            $data['role'] = config('bandyer.default_role', 'basic');
+        }
         return $this->json('users', "POST", $data);
+    }
+
+    public function createBasicUser($data)
+    {
+        $data['role'] = 'basic';
+        return $this->createUser($data);
+    }
+    public function createPlusUser($data)
+    {
+        $data['role'] = 'plus';
+        return $this->createUser($data);
     }
 
     public function getUser($id)
     {
-        return $this->query('users/'.$id);
+        return $this->query('users/' . $id);
     }
 
-    public function updateUser($id,$data)
+    public function updateUser($id, $data)
     {
-        return $this->json('users/'.$id, "PUT",$data);
+        return $this->json('users/' . $id, "PUT", $data);
     }
 
     public function deleteUser($id)
     {
-        return $this->json('users/'.$id, "DELETE");
+        return $this->json('users/' . $id, "DELETE");
     }
 
     public function updateAvatar($id, UploadedFile $file)
     {
-        return $this->multipart('users/'.$id.'/avatar', $file, "avatar", "PUT");
+        return $this->multipart('users/' . $id . '/avatar', $file, "avatar", "PUT");
     }
 
-    public function deleteAvatar($id, UploadedFile $file)
+    public function deleteAvatar($id)
     {
-        return $this->multipart('user/avatar/update/'.$id, $file,"avatar","PUT");
+        return $this->json('users/' . $id. '/avatar', "DELETE");
     }
 
-    /*public function updatePermissions($data)
-    {
-        return $this->json('user/update/all/permissions',"PUT",$data);
-    }
-
-    public function getUserRooms($id,$data)
-    {
-        return $this->json('user/room/list/'.$id, "GET", $data);
-    }*/
 }

@@ -75,7 +75,7 @@ class EventController
                 if (config('bandyer.rest.log')) {
                     Log::info(json_encode(request()->all()));
                 }
-                $this->response("Error: Kaleyra - Event not found", 422);
+                $this->response("Error: Kaleyra - WebHook not found", 422);
                 break;
         }
 
@@ -94,7 +94,7 @@ class EventController
         if (!$room->save()) {
             $this->response("Error: DB - Error saving", 500);
         }
-        $this->response(['msg' => "Event saved"]);
+        $this->response(['msg' => "WebHook saved"]);
     }
 
     private function on_call_incoming($data): void

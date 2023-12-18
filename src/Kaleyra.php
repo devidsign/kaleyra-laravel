@@ -4,9 +4,11 @@ namespace Idsign\Kaleyra;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
 use Idsign\Kaleyra\Traits\Company;
-use Idsign\Kaleyra\Traits\Event;
+use Idsign\Kaleyra\Traits\Upload;
+use Idsign\Kaleyra\Traits\WebHook;
 use Idsign\Kaleyra\Traits\Room;
 use Idsign\Kaleyra\Traits\Sdk;
 use Idsign\Kaleyra\Traits\Session;
@@ -15,15 +17,15 @@ use Illuminate\Support\Facades\Log;
 
 class Kaleyra
 {
-    use User, Room, Company, Event, Sdk, Session;
+    use User, Room, Company, WebHook, Sdk, Session, Upload;
 
     private Client $client;
-    private mixed $url;
-    private mixed $key;
+    private string $url;
+    private string $key;
     private $body;
     private bool $log = false;
     private $contents;
-    private $status;
+    private int $status;
     private array $data = [];
 
     public function __construct()
@@ -35,10 +37,7 @@ class Kaleyra
         $this->client = new Client($clientConfig);
     }
 
-    /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    private function json($url, $type="POST", $data = [], $headers = []): bool
+    private function json($url, $type = "POST", $data = [], $headers = []): bool
     {
         $post['json'] = $data;
         return $this->call($url, $type, $post, array_merge($headers, [
@@ -46,14 +45,14 @@ class Kaleyra
         ]));
     }
 
-    private function multipart($url, $file, $fieldname, $type="POST"): bool
+    private function multipart($url, $file, $fieldName, $type = "POST"): bool
     {
         $post['multipart'] = [
             [
-                "name"=>$fieldname,
-                "mimeType"=>$file->getMimeType(),
-                "filename"=>$file->getClientOriginalName(),
-                "contents"=>fopen($file->getRealPath(),"r"),
+                "name" => $fieldName,
+                "mimeType" => $file->getMimeType(),
+                "filename" => $file->getClientOriginalName(),
+                "contents" => fopen($file->getRealPath(), "r"),
             ]
         ];
         return $this->call($url, $type, $post);
@@ -67,14 +66,6 @@ class Kaleyra
         ]));
     }
 
-    private function post($url, $data = [])
-    {
-
-    }
-
-    /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
     private function call($url, $type, $data, $customHeaders = []): bool
     {
         $headers = array_merge($customHeaders, [
@@ -92,7 +83,7 @@ class Kaleyra
 
         try {
             $response = $this->client->request($type, $url, $config);
-        } catch (ClientException | ServerException $e) {
+        } catch (ClientException|GuzzleException|ServerException $e) {
             $response = $e->getResponse();
         }
         return $this->getResponse($response);
