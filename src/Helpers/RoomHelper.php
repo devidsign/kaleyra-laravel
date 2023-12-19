@@ -34,13 +34,16 @@ class RoomHelper
             'is_admin' => true,
             'tools' => array_merge($tools, $operatorTools)
         ];
+        $maxTries = ($extraUsers * 2);
+        $tries = 0;
         if ($extraUsers > 0) {
-            while ($extraUsers > 0) {
+            while ($extraUsers > 0 && $tries < $maxTries) {
                 if ($kaleyra->createBasicUser()) {
                     $response = $kaleyra->getContents();
                     $users[] = $response->id;
                     $extraUsers--;
                 }
+                $tries++;
             }
         }
         foreach ($users as $user) {
