@@ -19,12 +19,12 @@ trait User
         return $this->json('users', "POST", $data);
     }
 
-    public function createBasicUser($data)
+    public function createBasicUser($data = [])
     {
         $data['role'] = 'basic';
         return $this->createUser($data);
     }
-    public function createPlusUser($data)
+    public function createPlusUser($data = [])
     {
         $data['role'] = 'plus';
         return $this->createUser($data);

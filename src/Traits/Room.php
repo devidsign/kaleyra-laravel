@@ -2,6 +2,8 @@
 
 namespace Idsign\Kaleyra\Traits;
 
+use Illuminate\Support\Arr;
+
 trait Room
 {
     public function allRooms(): bool
@@ -68,5 +70,6 @@ trait Room
     {
         return $this->json('rooms/' . $id . '/participants/' . $userId, "DELETE");
     }
+
 
 }

@@ -15,7 +15,7 @@ trait Upload
     {
         return $this->query('uploads/' . $key);
     }
-    public function deleteUser($key)
+    public function deleteUpload($key)
     {
         return $this->json('uploads/' . $key, "DELETE");
     }
