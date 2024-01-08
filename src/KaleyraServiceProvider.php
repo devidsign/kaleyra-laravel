@@ -13,7 +13,7 @@ class KaleyraServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/kaleyra.php', 'kaleyra_video');
+        $this->mergeConfigFrom(__DIR__ . '/../config/kaleyra.php', 'kaleyra_api');
 
         $this->app->bind('kaleyra', function () {
             return new Kaleyra();
@@ -28,7 +28,7 @@ class KaleyraServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config/kaleyra.php' => config_path('kaleyra_video.php'),
+            __DIR__ . '/../config/kaleyra.php' => config_path('kaleyra_api.php'),
         ]);
 
     }
