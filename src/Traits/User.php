@@ -14,7 +14,7 @@ trait User
     public function createUser($data)
     {
         if (!isset($data['role']) || !$data['role']) {
-            $data['role'] = config('bandyer.default_role', 'basic');
+            $data['role'] = config('kaleyra_api.default_role', 'basic');
         }
         return $this->json('users', "POST", $data);
     }

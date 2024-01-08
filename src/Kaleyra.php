@@ -30,8 +30,9 @@ class Kaleyra
 
     public function __construct()
     {
-        $this->url = config('bandyer.url');
-        $this->key = config('bandyer.key');
+        $this->url = config('kaleyra_api.url');
+        $this->key = config('kaleyra_api.key');
+        $this->log = config('kaleyra_api.logging', false);
 
         $clientConfig = ['base_uri' => $this->url, 'stream' => true];
         $this->client = new Client($clientConfig);
