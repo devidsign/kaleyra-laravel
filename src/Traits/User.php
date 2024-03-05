@@ -6,9 +6,9 @@ use Illuminate\Http\UploadedFile;
 
 trait User
 {
-    public function allUsers()
+    public function allUsers($data = [])
     {
-        return $this->query('users');
+        return $this->query('users', $data);
     }
 
     public function createUser($data)
